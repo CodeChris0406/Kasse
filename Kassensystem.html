@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einfaches Kassensystem</title>
+</head>
+<body>
+
+<!-- Benutzeroberfläche für das Kassensystem -->
+<div>
+    <h2>Einfaches Kassensystem</h2>
+    
+    <!-- Dropdown-Liste für Produkte -->
+    <select id="products">
+        <option value="10">Produkt A - 10€</option>
+        <option value="20">Produkt B - 20€</option>
+        <option value="30">Produkt C - 30€</option>
+    </select>
+    
+    <!-- Eingabefeld für die Menge -->
+    <input type="number" id="quantity" placeholder="Menge" min="1">
+    
+    <!-- Button zum Hinzufügen zum Warenkorb -->
+    <button onclick="addToCart()">Zum Warenkorb hinzufügen</button>
+    
+    <!-- Anzeige des Gesamtbetrags -->
+    <h3>Gesamtbetrag: <span id="totalAmount">0</span>€</h3>
+
+    <!-- Eingabefeld für das gegebene Geld -->
+    <input type="number" id="givenMoney" placeholder="Gegebenes Geld" step="0.01">
+    
+    <!-- Button zum Bezahlen -->
+    <button onclick="pay()">Bezahlen</button>
+    
+    <!-- Anzeige des Wechselgelds -->
+    <h3>Wechselgeld: <span id="change">0</span>€</h3>
+    
+    <!-- Platz für Fehlermeldung -->
+    <p id="errorText" style="color: red;"></p>
+</div>
+
+<script>
+    // Variable für den Gesamtbetrag
+    let totalAmount = 0;
+
+    // Funktion zum Hinzufügen von Produkten zum Warenkorb
+    function addToCart() {
+        // Ausgewähltes Produkt und Menge abrufen
+        const productPrice = parseFloat(document.getElementById('products').value);
+        const quantity = parseFloat(document.getElementById('quantity').value);
+
+        // Gesamtpreis für das ausgewählte Produkt berechnen
+        const price = productPrice * quantity;
+
+        // Gesamtbetrag aktualisieren
+        totalAmount += price;
+
+        // Gesamtbetrag in der Benutzeroberfläche anzeigen
+        document.getElementById('totalAmount').innerText = totalAmount.toFixed(2);
+    }
+
+    // Funktion zum Bezahlen und Berechnen des Wechselgelds
+    function pay() {
+        // Gegebenes Geld abrufen
+        const givenMoney = parseFloat(document.getElementById('givenMoney').value);
+
+        // Wechselgeld berechnen
+        const change = givenMoney - totalAmount;
+
+        // Fehlermeldung zurücksetzen
+        document.getElementById('errorText').innerText = "";
+
+        // Wechselgeld anzeigen, falls genug Geld gegeben wurde
+        if (change >= 0) {
+            document.getElementById('change').innerText = change.toFixed(2);
+        } else {
+            document.getElementById('errorText').innerText = "Nicht genug Geld gegeben!";
+        }
+    }
+</script>
+
+</body>
+</html>
